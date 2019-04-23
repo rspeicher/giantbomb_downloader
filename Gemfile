@@ -9,5 +9,6 @@ gem 'faraday_middleware'
 gem 'hashie', '~> 3.6.0'
 
 group :development, :test do
+  gem 'rspec', '~> 3.8.0'
   gem 'pry'
 end
