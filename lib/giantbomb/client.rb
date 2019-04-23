@@ -22,6 +22,14 @@ module GiantBomb
   class Client
     ENDPOINT = 'https://www.giantbomb.com/api/'
 
+    def self.api_key
+      ENV.fetch('GIANTBOMB_TOKEN')
+    end
+
+    def self.user_agent
+      'GiantBomb Downloader -- rspeicher@gmail.com'
+    end
+
     def self.videos(since = nil)
       new.videos(since)
     end
@@ -33,7 +41,11 @@ module GiantBomb
         }
       end
 
-      client.get('videos/', params || {})
+      # TODO (rspeicher): Error handling?
+      client
+        .get('videos/', params || {})
+        .body['results']
+        .map { |v| GiantBomb::Video.new(v) }
     end
 
     private
@@ -42,11 +54,11 @@ module GiantBomb
       {
         url: ENDPOINT,
         params: {
-          api_key: ENV.fetch('GIANTBOMB_TOKEN'),
+          api_key: self.class.api_key,
           format: 'json'
         },
         headers: {
-          'User-Agent' => 'GiantBomb Downloader -- rspeicher@gmail.com'
+          'User-Agent' => self.class.user_agent
         },
         request: {
           params_encoder: ParamsEncoder,
