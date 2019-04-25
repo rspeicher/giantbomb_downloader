@@ -13,4 +13,4 @@ else
   date = nil
 end
 
-GiantBomb::Client.videos(date)
+GiantBomb::Downloader.execute(date)
