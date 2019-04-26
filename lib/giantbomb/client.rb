@@ -30,14 +30,15 @@ module GiantBomb
       'GiantBomb Downloader -- rspeicher@gmail.com'
     end
 
-    def self.videos(since = nil)
-      new.videos(since)
+    def self.videos(last_run = nil)
+      new.videos(last_run)
     end
 
-    def videos(since = nil)
-      unless since.nil?
+    def videos(last_run = nil)
+      unless last_run.nil?
         params = {
-          filter: "publish_date:#{since.iso8601}|#{Time.now.iso8601}"
+          # NOTE: The date filter requires an "end date" value
+          filter: "publish_date:#{last_run.iso8601}|#{Time.now.iso8601}"
         }
       end
 

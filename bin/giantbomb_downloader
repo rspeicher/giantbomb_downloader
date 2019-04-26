@@ -9,6 +9,8 @@ require 'giantbomb'
 
 if ARGV.length > 0
   date = Time.parse(ARGV.shift)
+elsif GiantBomb::Config.last_run
+  date = GiantBomb::Config.last_run
 else
   date = nil
 end
