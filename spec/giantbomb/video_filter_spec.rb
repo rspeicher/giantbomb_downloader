@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe GiantBomb::VideoFilter do
   describe '.rejected?' do
-    it 'excludes a filtered video title' do
+    it 'excludes a filtered video name' do
       video = double(name: "Breakfast 'N' Ben - 04/17/19")
 
       expect(described_class.rejected?(video)).to eq true
