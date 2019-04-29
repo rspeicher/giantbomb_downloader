@@ -35,11 +35,15 @@ module GiantBomb
     end
 
     def videos(last_run = nil)
+      params = {
+        sort: 'publish_date:asc'
+      }
+
       unless last_run.nil?
-        params = {
+        params.merge!(
           # NOTE: The date filter requires an "end date" value
-          filter: "publish_date:#{last_run.iso8601}|#{Time.now.iso8601}"
-        }
+          filter: "publish_date:#{last_run.iso8601}|#{Time.now.iso8601}",
+        )
       end
 
       # TODO (rspeicher): Error handling?
