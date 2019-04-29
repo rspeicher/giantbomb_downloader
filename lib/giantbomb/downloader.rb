@@ -10,13 +10,13 @@ module GiantBomb
 
     def execute(last_run = nil)
       videos = GiantBomb::Client.videos(last_run)
-      filtered = GiantBomb::VideoFilter.filter(videos)
+      included = GiantBomb::VideoFilter.filter(videos)
 
-      filtered.each do |video|
+      included.each do |video|
         download(video)
       end
 
-      GiantBomb::Config.last_run = Time.now
+      GiantBomb::Config.last_run = Time.now if included.any?
     end
 
     def download(video)
