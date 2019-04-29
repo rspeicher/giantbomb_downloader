@@ -30,8 +30,21 @@ module GiantBomb
       'GiantBomb Downloader -- rspeicher@gmail.com'
     end
 
+    def self.search(query)
+      new.search(query)
+    end
+
     def self.videos(last_run = nil)
       new.videos(last_run)
+    end
+
+    def search(query)
+      client
+        .get('search/', { query: query, resources: 'video' })
+        .body['results']
+        .map { |v| GiantBomb::Video.new(v) }
+    rescue Faraday::ConnectionFailed
+      # no-op
     end
 
     def videos(last_run = nil)
