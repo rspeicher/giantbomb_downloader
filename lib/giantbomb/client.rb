@@ -87,10 +87,12 @@ module GiantBomb
 
     def client
       @client ||= Faraday.new(**client_config) do |config|
-        config.response :logger, nil, { headers: false }
-        config.response :json
+        config.response :logger, nil, { headers: false } do |logger|
+          logger.filter(self.class.api_key, '[key]')
+        end
 
-        config.request :json
+        config.response :json
+        config.request  :json
 
         config.adapter Faraday.default_adapter
       end
